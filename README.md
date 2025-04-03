@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Formik Pattern
 
-## Getting Started
+## 🚀 Overview
 
-First, run the development server:
+This project was initially created to **easily and type-safely implement a multi-step form**, ensuring full control and security throughout the process. Additionally, it allows you to create your own **custom inputs** leveraging the power of Formik. This approach can also be easily adapted to other libraries such as **React Hook Form**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project demonstrates how to implement **Formik** in a real-world scenario with a scalable input structure, real-time translations, and more. The most important feature covered is the implementation of a **multi-step form**, which can be challenging to structure effectively.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js** (15.2.2) - React framework for server-side rendering and static site generation.
+- **React** (19.0.0) - UI library for building components.
+- **Formik** (2.4.6) - Form handling library.
+- **Yup** (1.6.1) - Schema validation for forms.
+- **React Query** (5.68.0) - Data fetching and caching.
+- **Tailwind CSS** (4) - Utility-first CSS framework.
+- **Radix UI** - Accessible components:
+  - Checkbox
+  - Dialog
+  - Label
+  - Popover
+  - Select
+  - Slot
+  - Switch
+- **React Toastify** (11.0.5) - Toast notifications.
+- **React Number Format** (5.4.3) - Formatting numbers in input fields.
+- **React Day Picker** (8.10.1) - Date selection component.
+- **Next Intl** (4.0.2) - Internationalization support.
+- **Lucide React** (0.482.0) - Icon library.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Installation
 
-## Learn More
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/project-formik-pattern.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd project-formik-pattern
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+## 🔄 Running the Project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Development mode:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  ```sh
+  npm run dev
+  # or
+  yarn dev
+  ```
 
-## Deploy on Vercel
+- **Build for production:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  ```sh
+  npm run build
+  ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Start the production server:**
+
+  ```sh
+  npm run start
+  ```
+
+- **Run linter:**
+
+  ```sh
+  npm run lint
+  ```
+
+## 🏗️ Features
+
+✅ **Scalable input types** with Formik & Yup\
+✅ **Multi-step form implementation**\
+✅ **Real-time translations** using Next Intl\
+✅ **Reusable UI components** with Radix UI\
+✅ **Form validation** with Yup\
+✅ **Global state management** using React Query\
+✅ **Beautiful UI styling** with Tailwind CSS\
+✅ **Toast notifications** with React Toastify
+
+## 📜 License
+
+This project is open-source and available under the [MIT License](LICENSE). Feel free to use and modify it as needed!
+
+---
+
+Made with ❤️ by [Josue Perez Parejo](https://github.com/josueperezparejo)
