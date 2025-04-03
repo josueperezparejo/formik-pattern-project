@@ -1,0 +1,82 @@
+{
+  "HomePage": {
+    "title": "Formularios Multistep Ingles"
+  },
+  "Validations": {
+    "nombre": {
+      "min": "The name must be at least 2 characters",
+      "max": "The name cannot be more than 50 characters",
+      "required": "Name is required"
+    },
+    "apellido": {
+      "min": "The lastname must be at least 2 characters",
+      "max": "The lastname cannot be more than 50 characters",
+      "required": "Lastname is required"
+    },
+    "email": {
+      "email": "Invalid email",
+      "required": "Email is required"
+    },
+    "password": {
+      "min": "Password must be at least 8 characters",
+      "matches": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      "required": "Password is required"
+    },
+    "confirmPassword": {
+      "oneOf": "Passwords must match",
+      "required": "Confirm password is required"
+    },
+    "descripcion": {
+      "min": "Description must be at least 10 characters",
+      "max": "Description cannot be more than 500 characters",
+      "required": "Description is required"
+    },
+    "categoria": {
+      "required": "Select a category"
+    },
+    "fechaNacimiento": {
+      "min": "Date cannot be in the future",
+      "required": "Date of birth is required"
+    },
+    "genero": {
+      "required": "Select a gender"
+    },
+    "notificaciones": {
+      "required": "Notifications are required"
+    },
+    "edad": {
+      "min": "You must be over 18 years old",
+      "max": "Invalid age",
+      "required": "Age is required"
+    },
+    "terminosCondiciones": {
+      "oneOf": "You must accept the terms and conditions"
+    },
+    "userRole": {
+      "required": "User Role is required"
+    },
+    "currency": {
+      "required": "Currency is required"
+    },
+    "price": {
+      "required": "Price is required"
+    },
+    "friends": {
+      "name": {
+        "min": "The friend's name must be at least 2 characters",
+        "max": "The friend's name cannot be more than 50 characters",
+        "required": "Friend's name is required"
+      },
+      "lastName": {
+        "min": "The friend's last name must be at least 2 characters",
+        "max": "The friend's last name cannot be more than 50 characters",
+        "required": "Friend's last name is required"
+      }
+    }
+  },
+  "Botones": {
+    "anterior": "Back",
+    "siguiente": "Next",
+    "finalizar": "Complete"
+  }
+}

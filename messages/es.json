@@ -1,0 +1,82 @@
+{
+  "HomePage": {
+    "title": "Formularios Multistep Español"
+  },
+  "Validations": {
+    "nombre": {
+      "min": "El nombre debe tener al menos 2 caracteres",
+      "max": "El nombre no puede tener más de 50 caracteres",
+      "required": "El nombre es obligatorio"
+    },
+    "apellido": {
+      "min": "El apellido debe tener al menos 2 caracteres",
+      "max": "El apellido no puede tener más de 50 caracteres",
+      "required": "El apellido es obligatorio"
+    },
+    "email": {
+      "email": "Email inválido",
+      "required": "El email es obligatorio"
+    },
+    "password": {
+      "min": "La contraseña debe tener al menos 8 caracteres",
+      "matches": "La contraseña debe contener al menos una letra mayúscula, una minúscula, un número y un carácter especial",
+      "required": "La contraseña es obligatoria"
+    },
+    "confirmPassword": {
+      "oneOf": "Las contraseñas no coinciden",
+      "required": "Confirmar contraseña es obligatorio"
+    },
+    "descripcion": {
+      "min": "La descripción debe tener al menos 10 caracteres",
+      "max": "La descripción no puede tener más de 500 caracteres",
+      "required": "La descripción es obligatoria"
+    },
+    "categoria": {
+      "required": "Selecciona una categoría"
+    },
+    "fechaNacimiento": {
+      "min": "La fecha no puede ser futura",
+      "required": "La fecha de nacimiento es obligatoria"
+    },
+    "genero": {
+      "required": "Selecciona un género"
+    },
+    "notificaciones": {
+      "required": "Las notificaciones son obligatorias"
+    },
+    "edad": {
+      "min": "Debes ser mayor de 18 años",
+      "max": "Edad inválida",
+      "required": "La edad es obligatoria"
+    },
+    "terminosCondiciones": {
+      "oneOf": "Debes aceptar los términos y condiciones"
+    },
+    "userRole": {
+      "required": "El User Role es obligatorio"
+    },
+    "currency": {
+      "required": "La moneda es obligatoria"
+    },
+    "price": {
+      "required": "El precio es obligatorio"
+    },
+    "friends": {
+      "name": {
+        "min": "El nombre del amigo debe tener al menos 2 caracteres",
+        "max": "El nombre del amigo no puede tener más de 50 caracteres",
+        "required": "El nombre del amigo es obligatorio"
+      },
+      "lastName": {
+        "min": "El apellido del amigo debe tener al menos 2 caracteres",
+        "max": "El apellido del amigo no puede tener más de 50 caracteres",
+        "required": "El apellido del amigo es obligatorio"
+      }
+    }
+  },
+  "Botones": {
+    "anterior": "Anterior",
+    "siguiente": "Siguiente",
+    "finalizar": "Finalizar"
+  }
+}
