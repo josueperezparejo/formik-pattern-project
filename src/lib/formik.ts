@@ -7,21 +7,31 @@ type DeepKeys<T> = T extends object
     }[keyof T]
   : never;
 
+// Type to get the properties of an array
+type ArrayProperties<T> = T extends (infer U)[] ? keyof U : never;
+
 export function createFieldNameTyped<T>() {
   function nameTyped<K extends DeepKeys<T>>(field: K): K {
     return field;
   }
 
-  function dynamicNameTyped<K extends DeepKeys<T>>(
-    baseField: K,
+  // Function to create array field name typed
+  function arrayFieldNameTyped<
+    K extends keyof T,
+    P extends ArrayProperties<T[K]>
+  >(
+    arrayField: K extends keyof T & (T[K] extends any[] ? K : never)
+      ? K
+      : never,
+    property: P,
     index: number
   ): string {
-    return (baseField as string).replace("0", `${index}`);
+    return `${String(arrayField)}[${index}].${String(property)}`;
   }
 
   return {
     nameTyped,
-    dynamicNameTyped,
+    arrayFieldNameTyped,
   };
 }
 
@@ -44,12 +54,10 @@ export function createFieldValueTyped<T>(
 }
 
 export function getClearFieldsObjectFromSchema(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: ObjectSchema<any>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Record<string, any> {
   const fieldsToClear = Object.keys(schema.fields);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const clearFields: Record<string, any> = {};
 
   fieldsToClear.forEach((field) => {

@@ -2,19 +2,28 @@
 
 import { useEffect, useState } from "react";
 
-import { useTranslations } from "next-intl";
 import { ErrorMessage, useField } from "formik";
 import { NumericFormat } from "react-number-format";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { LuLoaderCircle, LuSearch } from "react-icons/lu";
 
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
+import { Checkbox } from "../ui/checkbox";
+import { Calendar } from "../ui/calendar";
+
+import { cn, DateTimeFormatter } from "@/lib";
+
+import {
+  Eye,
+  Check,
+  EyeOff,
+  Pencil,
+  CalendarIcon,
+  ChevronsUpDown,
+} from "lucide-react";
 
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { Checkbox } from "../ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import {
@@ -24,14 +33,17 @@ import {
   SelectTrigger,
   SelectContent,
 } from "../ui/select";
+
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from "../ui/command";
+import { Label } from "../ui/label";
 
 interface Option {
   id: string | number;
@@ -51,8 +63,11 @@ interface Props {
     | "switch"
     | "price"
     | "select"
-    | "combobox";
+    | "combobox"
+    | "calendar";
   disabled?: boolean;
+  isEditing?: boolean;
+  isLoading?: boolean;
   showErrorMessage?: boolean;
   currencyPrefix?: string;
   options?: Option[];
@@ -66,6 +81,8 @@ export function FormInput({
   label,
   options,
   disabled,
+  isEditing,
+  isLoading,
   className,
   placeholder,
   currencyPrefix,
@@ -80,6 +97,7 @@ export function FormInput({
 
   const [openSelect, setOpenSelect] = useState<boolean>(false);
   const [openCombobox, setOpenCombobox] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleSelectToggleCombobox = (option: Option) => {
     if (field.value && field.value.value === option.value) {
@@ -112,44 +130,64 @@ export function FormInput({
       );
       break;
     case "password":
-      console.log("🚀 ~ Falta implementar FormInput password");
-
       inputElement = (
-        <Input
-          disabled={disabled}
-          id={name}
-          {...field}
-          {...props}
-          type={type}
-          placeholder={placeholder}
-          className={`border ${
-            meta.touched && meta.error ? "border-red-500" : ""
-          } ${className}`}
-        />
+        <div className="relative">
+          <Input
+            disabled={disabled}
+            id={name}
+            {...field}
+            {...props}
+            type={showPassword ? "text" : type}
+            placeholder={placeholder}
+            className={`border ${
+              meta.touched && meta.error ? "border-red-500" : ""
+            } ${className}`}
+          />
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={
+              showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+            }
+          >
+            {showPassword ? (
+              <EyeOff className="text-muted-foreground h-4 w-4" />
+            ) : (
+              <Eye className="text-muted-foreground h-4 w-4" />
+            )}
+          </Button>
+        </div>
       );
 
       break;
     case "search":
-      console.log("🚀 ~ Falta implementar FormInput search");
-
       inputElement = (
-        <Input
-          disabled={disabled}
-          id={name}
-          {...field}
-          {...props}
-          type={type}
-          placeholder={placeholder}
-          className={`border ${
-            meta.touched && meta.error ? "border-red-500" : ""
-          } ${className}`}
-        />
+        <div className="relative">
+          <Input
+            disabled={disabled}
+            id={name}
+            {...field}
+            {...props}
+            type={type}
+            placeholder={placeholder}
+            className={`border pr-8 ${
+              meta.touched && meta.error ? "border-red-500" : ""
+            } ${className}`}
+          />
+          <LuSearch
+            size={12}
+            className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2"
+            aria-hidden="true"
+          />
+        </div>
       );
 
       break;
     case "date":
-      console.log("🚀 ~ Falta implementar FormInput date");
-
       inputElement = (
         <Input
           disabled={disabled}
@@ -229,7 +267,7 @@ export function FormInput({
     case "select":
       inputElement = (
         <Select
-          disabled={disabled}
+          disabled={disabled || isLoading}
           open={openSelect}
           onOpenChange={setOpenSelect}
           onValueChange={(value) => {
@@ -239,7 +277,13 @@ export function FormInput({
         >
           <SelectTrigger id={name}>
             <SelectValue
-              placeholder={placeholder || "Seleccione una categoria"}
+              placeholder={
+                isLoading ? (
+                  <LuLoaderCircle className="animate-spin" />
+                ) : (
+                  placeholder || "Select an option"
+                )
+              }
             />
           </SelectTrigger>
           <SelectContent>
@@ -255,25 +299,28 @@ export function FormInput({
     case "combobox":
       inputElement = (
         <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
-          <PopoverTrigger asChild>
+          <PopoverTrigger className="truncate" asChild>
             <Button
               id={name}
-              disabled={disabled}
+              disabled={disabled || isLoading}
               variant="outline"
               role="combobox"
               aria-expanded={openCombobox}
-              className="w-full justify-between"
+              className="w-full justify-between truncate"
             >
-              {field.value
-                ? options?.find((option) => option.id === field.value?.id)
-                    ?.label
-                : placeholder}
+              {isLoading ? (
+                <LuLoaderCircle className="animate-spin" />
+              ) : field.value ? (
+                options?.find((option) => option.id === field.value?.id)?.label
+              ) : (
+                placeholder
+              )}
 
               <ChevronsUpDown className="opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-full p-0">
-            <Command>
+            <CommandDialog>
               <CommandInput
                 placeholder={placeholder || "Buscar..."}
                 className="h-9"
@@ -310,6 +357,47 @@ export function FormInput({
         </Popover>
       );
       break;
+    case "calendar":
+      const dateFormated = DateTimeFormatter.formatDateToLocal(field.value);
+      const date = new Date(dateFormated);
+
+      inputElement = (
+        <div className="w-full">
+          <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
+            <PopoverTrigger asChild>
+              <Button
+                id={name}
+                disabled={disabled}
+                variant="outline"
+                role="calendar"
+                aria-expanded={openCombobox}
+                className="w-full justify-between"
+              >
+                {field.value
+                  ? DateTimeFormatter.formatDateToLocal(
+                      field.value,
+                      "dd/MM/yyyy"
+                    )
+                  : placeholder || "Selecciona una fecha"}
+                <CalendarIcon className="size-3.5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                captionLayout={"dropdown"}
+                mode="single"
+                selected={field.value ? date : undefined}
+                defaultMonth={field.value ? date : undefined}
+                onSelect={(date) => {
+                  handleChange(date ? date.toISOString() : undefined);
+                  setOpenCombobox(false);
+                }}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+      );
+      break;
 
     default:
       inputElement = (
@@ -329,8 +417,6 @@ export function FormInput({
       break;
   }
 
-  const t = useTranslations();
-
   useEffect(() => {
     if (meta.value && meta.error) {
       helpers.setTouched(true, true);
@@ -341,7 +427,7 @@ export function FormInput({
       helpers.setTouched(true, true);
       return;
     }
-  }, [meta?.error, meta?.touched, meta?.value, helpers, t]);
+  }, [meta?.error, meta?.touched, meta?.value, helpers]);
 
   return (
     <div className={cn("space-y-2 space-x-2")}>
@@ -349,30 +435,65 @@ export function FormInput({
         <div className="flex items-start space-x-2">
           {inputElement}
           <div className="grid gap-1.5 leading-none">
-            <Label
-              onClick={(event) => {
-                if (disabled) event.preventDefault();
-              }}
-              htmlFor={name}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {label || <span className="invisible">.</span>}
-            </Label>
+            {isEditing && (
+              <div className="flex items-center space-x-2">
+                <Label
+                  onClick={(event) => {
+                    if (disabled) event.preventDefault();
+                  }}
+                  htmlFor={name}
+                  className="text-sm leading-none font-semibold peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {label || <span className="invisible">.</span>}
+                </Label>
+                <Pencil size={12} />
+              </div>
+            )}
+
+            {!isEditing && (
+              <Label
+                onClick={(event) => {
+                  if (disabled) event.preventDefault();
+                }}
+                htmlFor={name}
+                className="text-sm leading-none font-semibold peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {label || <span className="invisible">.</span>}
+              </Label>
+            )}
           </div>
         </div>
       )}
 
       {type !== "checkbox" && type !== "switch" && (
         <>
-          <Label
-            onClick={(event) => {
-              if (disabled) event.preventDefault();
-            }}
-            htmlFor={name}
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            {label || <span className="invisible">.</span>}
-          </Label>
+          {isEditing && (
+            <div className="flex items-center space-x-2">
+              <Label
+                onClick={(event) => {
+                  if (disabled) event.preventDefault();
+                }}
+                htmlFor={name}
+                className="text-sm leading-none font-semibold peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {label || <span className="invisible">.</span>}
+              </Label>
+              <Pencil size={12} />
+            </div>
+          )}
+
+          {!isEditing && (
+            <Label
+              onClick={(event) => {
+                if (disabled) event.preventDefault();
+              }}
+              htmlFor={name}
+              className="text-sm leading-none font-semibold peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              {label || <span className="invisible">.</span>}
+            </Label>
+          )}
+
           {inputElement}
         </>
       )}
